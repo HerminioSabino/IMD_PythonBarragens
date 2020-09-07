@@ -1,0 +1,186 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Ler_Dados_CSV_Internet.ipynb",
+      "provenance": [],
+      "mount_file_id": "1dxsNiPWHcAFrKeTgLKt-1PI5Tx7vOfCA",
+      "authorship_tag": "ABX9TyNdyk5pf2lhJgmbWDxBVEuF",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/HerminioSabino/IMD_PythonBarragens/blob/master/Barragens_BR\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "umWYnt6lzbbD",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 564
+        },
+        "outputId": "57ae5c30-7630-4c6a-d13d-625a55318323"
+      },
+      "source": [
+        "!pip install matplotlib\n",
+        "!pip install geopandas\n",
+        "!pip install numpy\n",
+        "!pip install request\n",
+        "!pip install selenium\n",
+        "!pip install lxml"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (3.2.2)\n",
+            "Requirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.8.1)\n",
+            "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.2.0)\n",
+            "Requirement already satisfied: numpy>=1.11 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.18.5)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)\n",
+            "Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.4.7)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil>=2.1->matplotlib) (1.15.0)\n",
+            "Requirement already satisfied: geopandas in /usr/local/lib/python3.6/dist-packages (0.8.1)\n",
+            "Requirement already satisfied: pyproj>=2.2.0 in /usr/local/lib/python3.6/dist-packages (from geopandas) (2.6.1.post1)\n",
+            "Requirement already satisfied: shapely in /usr/local/lib/python3.6/dist-packages (from geopandas) (1.7.1)\n",
+            "Requirement already satisfied: pandas>=0.23.0 in /usr/local/lib/python3.6/dist-packages (from geopandas) (1.0.5)\n",
+            "Requirement already satisfied: fiona in /usr/local/lib/python3.6/dist-packages (from geopandas) (1.8.16)\n",
+            "Requirement already satisfied: python-dateutil>=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas>=0.23.0->geopandas) (2.8.1)\n",
+            "Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas>=0.23.0->geopandas) (2018.9)\n",
+            "Requirement already satisfied: numpy>=1.13.3 in /usr/local/lib/python3.6/dist-packages (from pandas>=0.23.0->geopandas) (1.18.5)\n",
+            "Requirement already satisfied: cligj>=0.5 in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (0.5.0)\n",
+            "Requirement already satisfied: attrs>=17 in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (20.1.0)\n",
+            "Requirement already satisfied: munch in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (2.5.0)\n",
+            "Requirement already satisfied: six>=1.7 in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (1.15.0)\n",
+            "Requirement already satisfied: click-plugins>=1.0 in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (1.1.1)\n",
+            "Requirement already satisfied: click<8,>=4.0 in /usr/local/lib/python3.6/dist-packages (from fiona->geopandas) (7.1.2)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (1.18.5)\n",
+            "\u001b[31mERROR: Could not find a version that satisfies the requirement request (from versions: none)\u001b[0m\n",
+            "\u001b[31mERROR: No matching distribution found for request\u001b[0m\n",
+            "Collecting selenium\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/80/d6/4294f0b4bce4de0abf13e17190289f9d0613b0a44e5dd6a7f5ca98459853/selenium-3.141.0-py2.py3-none-any.whl (904kB)\n",
+            "\u001b[K     |████████████████████████████████| 911kB 7.2MB/s \n",
+            "\u001b[?25hRequirement already satisfied: urllib3 in /usr/local/lib/python3.6/dist-packages (from selenium) (1.24.3)\n",
+            "Installing collected packages: selenium\n",
+            "Successfully installed selenium-3.141.0\n",
+            "Requirement already satisfied: lxml in /usr/local/lib/python3.6/dist-packages (4.2.6)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eg-Jp12HznCn",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import pandas as pd"
+      ],
+      "execution_count": 21,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iwd_x9ch0Acw",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "## Importando as bibliotecas \n",
+        "import matplotlib.pyplot as plt\n",
+        "import numpy as np\n",
+        "import pandas as pd\n"
+      ],
+      "execution_count": 72,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "LwU1Iput24qj",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "df = pd.read_table('/content/drive/My Drive/Colab/Relatorio_BarragensBR2.txt',encoding='latin-1', sep=\";\" )"
+      ],
+      "execution_count": 69,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dMUo_RFX-tuO",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "df = df[df['UF']=='RN']"
+      ],
+      "execution_count": 70,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TlHseTpaGKws",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 163
+        },
+        "outputId": "6a7648f2-2506-440a-b4e3-f3e5349b0242"
+      },
+      "source": [
+        "df.plot(Latitude, Longitude, kind='line')"
+      ],
+      "execution_count": 81,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-81-64146a3e14f8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mLatitude\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mLongitude\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mkind\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'line'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m: name 'Latitude' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "B2LD4_iVFSF3",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
